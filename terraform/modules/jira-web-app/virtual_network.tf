@@ -1,6 +1,6 @@
 
 resource "azurerm_virtual_network" "default" {
-  name                = "vnet-jira-webapp-db-westeu"
+  name                = "vnet-jira-webapp-westeu"
   resource_group_name = azurerm_resource_group.default.name
   address_space       = ["10.0.0.0/19"]
   tags                = var.tags
@@ -38,4 +38,16 @@ resource "azurerm_subnet" "subnet-app" {
       actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
     }
   }
+}
+
+resource "azurerm_private_dns_zone" "jira" {
+  name                = "jira.postgres.database.azure.com"
+  resource_group_name = azurerm_resource_group.default.name
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "jira" {
+  name                  = "private-dns-zone-link-jira"
+  private_dns_zone_name = azurerm_private_dns_zone.jira.name
+  virtual_network_id    = azurerm_virtual_network.default.id
+  resource_group_name   = azurerm_resource_group.default.name
 }
