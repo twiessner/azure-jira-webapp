@@ -1,15 +1,14 @@
 
 resource "azurerm_virtual_network" "default" {
   name                = "vnet-jira-webapp-db-westeu"
-  location            = var.location
   resource_group_name = azurerm_resource_group.default.name
   address_space       = ["172.0.10.0/22"]
   tags                = var.tags
+  location            = var.location
 }
 
 resource "azurerm_subnet" "subnet-db" {
   name                 = "snet-jira-webapp-db-westeu"
-  location             = var.location
   resource_group_name  = azurerm_resource_group.default.name
   virtual_network_name = azurerm_virtual_network.default.name
   address_prefixes     = ["172.0.10.0/26"]
@@ -27,7 +26,6 @@ resource "azurerm_subnet" "subnet-db" {
 
 resource "azurerm_subnet" "subnet-app" {
   name                 = "snet-jira-webapp-app-westeu"
-  location             = var.location
   resource_group_name  = azurerm_resource_group.default.name
   virtual_network_name = azurerm_virtual_network.default.name
   address_prefixes     = ["172.0.20.0/26"]
