@@ -1,4 +1,5 @@
 
+backend.hcl
 teambank.test.auto.tfvars
 
 # Local .terraform directories
